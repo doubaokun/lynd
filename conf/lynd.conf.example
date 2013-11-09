@@ -1,0 +1,30 @@
+---
+:server:
+  :port:  2112
+:source:
+  icinga:
+    :mappings:
+      hostalias: host_name
+      servicedisplayname: service
+      servicestate: status
+      hostgroupnames: group
+    :groups:
+      :exclusions:
+      - generic
+:rules:
+- :name: straight_critical
+  :statement: select * from AlarmEvent where alert_status = "CRITICAL"
+  :add_tags:
+  - crtical
+  - all_alerts
+- :name: panic_big_time
+  :statement: select service_name, count(service_name) as alarm_count from AlarmEvent.win:time(30 sec) where service_group = "group2" having count(*) > 3
+  :add_tags:
+  - holy_guacamole
+:actions:
+  :mail:
+    :tags:
+    - holy_guacamole
+
+#### COMMENTS GO HERE
+# Good examples here => http://esper.codehaus.org/tutorials/solution_patterns/solution_patterns.html#aggregate-0

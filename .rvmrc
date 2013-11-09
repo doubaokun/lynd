@@ -1,0 +1,2 @@
+rvm use --create jruby@lynd
+export JRUBY_OPTS='-Xcext.enabled=true'
